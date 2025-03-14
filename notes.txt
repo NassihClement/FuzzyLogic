@@ -1,0 +1,23 @@
+config : 
+- plusieurs possibilités decodage:  centre = centre de gravité de l'ensemble flou | max | moyenne des max 
+- implication 
+- ainsi que : soit max soit somme | pour somme, si la somme des 2 max des sorties des règles R1 et R2  
+
+si ensemble flou resultat est plat, pas possible de décoder le résultat -> renvoie valeur 0 + warnings
+    -> ensemble flou et|ou règles mal baties 
+
+pour partiel, soit implication larsen ou mamdani, le reste tq materiel = faux 
+
+
+Explication pour la figure 2 
+Règles :
+    - R1 est la relation d'implication entre petit et petitZ
+
+//decodage centre grav doit donner 0 quand on est au centre : seule regle infront est active 
+
+regle mouvement : si cible proche on va lentement sinon vite -> a nou de deter ce que signifie proche/lojn et lent/rapide 
+on peut pas mesurer distance plus petites que 80 (dist entre centre root et centre de la cible). Pas non plus de dist bcp trop grande (il y a dist max)
+
+POUR ENSEMBLE DE SORTIE PAS DE RAMPES : NI HAUT NI BAS 
+-> ens sortie= soit triangle soit trapèze 
+-> vitesse max robot = 150 cm/s MAX 
