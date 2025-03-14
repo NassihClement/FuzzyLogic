@@ -24,8 +24,8 @@ linguistique
         onLeft  := rampe_haut(0.0,90.0);
 
         // Valeurs linguistiques de la variable linguistique Slin
-        rapide := triangle(10.0, 150.0, 200.0);
-        lente  := triangle(0.0, 100.0, 140.0);
+        rapide := triangle(50.0, 100.0, 150.0);
+        lente  := triangle(0.0, 50.0, 100.0);
         
 
         // Valeurs linguistiques de la variable linguistique Sang
