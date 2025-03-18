@@ -24,26 +24,41 @@ linguistique
         onLeft  := rampe_haut(0.0,90.0);
 
         // Valeurs linguistiques de la variable linguistique Slin
-        rapide := triangle(30.0, 150.0, 200.0);
-        lente  := triangle(30.0, 60.0, 200.0);
+        rapide := triangle(25.0, 150.0, 200.0);
+        lente  := triangle(25.0, 40.0, 200.0);
         
 
         // Valeurs linguistiques de la variable linguistique Sang
         turnRight  := triangle(-200.0,-100.0,0.0);
         straightOn := triangle(-100.0,0,100.0);
         turnLeft   := triangle(0.0,100.0,200.0);
+
+
+        //Valeurs linguistique pour la distance avec un obstacle 
+        contact := rampe_bas(80.0, 200.0);
+        
 }
 
 
 regles
 {
         // Reach the goal but ignore the obstacles
-
         si DirecGoal est inFront alors Sang est straightOn; 
         si DirecGoal est onLeft  alors Sang est turnLeft;
         si DirecGoal est onRight alors Sang est turnRight;
 
+        //règles pour la gestion de la vitesse en fonction de la distance jusqu'à l'objectif 
         si DistGoal est loin alors Slin est rapide;
         si DistGoal est proche alors Slin est lente;
+
+
+        //règles pour les obstacles
+        Si ObstLeft est contact alors Sang est turnRight;
+        Si ObstRight est contact alors Sang est turnLeft;
+
+        //par défaut il tourne a gauche quand obstacle devant  
+        Si ObstFront est contact alors Sang est turnLeft;
+        Si ObstFront est contact et ObstLeft est contact alors Sang est turnRight;
+
 }
 // ---End-Of-File-------------------------------------------------------------
