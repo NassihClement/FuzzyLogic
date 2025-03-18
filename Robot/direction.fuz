@@ -15,8 +15,8 @@ configuration
 linguistique
 {
 	// Valeurs linguistiques de la variable linguistique DistGoal
-        proche := rampe_bas(0.0, 200.0);
-        loin   := rampe_haut(150.0, 1000.0);
+        proche := rampe_bas(80.0, 200.0);
+        loin   := rampe_haut(80.0, 200.0);
 
 	// Valeurs linguistiques de la variable linguistique DirecGoal
         onRight := rampe_bas(-90.0,0);
@@ -24,16 +24,14 @@ linguistique
         onLeft  := rampe_haut(0.0,90.0);
 
         // Valeurs linguistiques de la variable linguistique Slin
-        rapide := triangle(50.0, 100.0, 150.0);
-        lente  := triangle(0.0, 50.0, 100.0);
+        rapide := triangle(30.0, 150.0, 200.0);
+        lente  := triangle(30.0, 60.0, 200.0);
         
 
         // Valeurs linguistiques de la variable linguistique Sang
         turnRight  := triangle(-200.0,-100.0,0.0);
         straightOn := triangle(-100.0,0,100.0);
         turnLeft   := triangle(0.0,100.0,200.0);
-
-        //
 }
 
 
