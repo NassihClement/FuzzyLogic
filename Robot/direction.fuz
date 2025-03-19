@@ -5,45 +5,62 @@
 
 configuration
 {
-	et := min;
-	ou := max;
-	decodage := centre;
-	implication := larsen;
-	ainsi_que := max;
+et := min;
+ou := max;
+decodage := centre;
+implication := larsen;
+ainsi_que := max;
 }
 
 linguistique
 {
-	// Valeurs linguistiques de la variable linguistique DistGoal
-        proche := rampe_bas(80.0, 200.0);
-        loin   := rampe_haut(80.0, 200.0);
+// Valeurs linguistiques de la variable linguistique DistGoal
+        proche := rampe_bas(120.0, 300.0);
+        loin   := rampe_haut(120.0, 300.0);
 
-	// Valeurs linguistiques de la variable linguistique DirecGoal
+// Valeurs linguistiques de la variable linguistique DirecGoal
         onRight := rampe_bas(-90.0,0);
         inFront := triangle(-90.0,0.0,90.0);
         onLeft  := rampe_haut(0.0,90.0);
 
         // Valeurs linguistiques de la variable linguistique Slin
-        rapide := triangle(30.0, 150.0, 200.0);
-        lente  := triangle(30.0, 60.0, 200.0);
+        rapide := triangle(100.0, 150.0, 151.0);
+        lente  := triangle(0.0, 40.0, 50.0);
         
 
         // Valeurs linguistiques de la variable linguistique Sang
         turnRight  := triangle(-200.0,-100.0,0.0);
         straightOn := triangle(-100.0,0,100.0);
         turnLeft   := triangle(0.0,100.0,200.0);
+
+        decaleDroite := triangle(-120.0,-60.0,0.0);
+        decaleGauche := triangle(0.0,60.0,120.0);
+
+        
+
+        //obstacles
+        contact := rampe_bas(100.0, 150.0);
 }
 
 
 regles
 {
         // Reach the goal but ignore the obstacles
-
+        //R1
         si DirecGoal est inFront alors Sang est straightOn; 
+        //R2
         si DirecGoal est onLeft  alors Sang est turnLeft;
+        //R3
         si DirecGoal est onRight alors Sang est turnRight;
-
-        si DistGoal est loin alors Slin est rapide;
-        si DistGoal est proche alors Slin est lente;
+        //R4
+        si ObstFront est contact ou ObstLeft est contact ou ObstRight est contact ou ObstBack est contact ou DistGoal est contact alors Slin est lente;
+        //R5
+        si DistGoal est loin et ObstLeft est loin et ObstRight est loin et ObstFront est loin alors Slin est rapide;
+        
+        //R8
+        si ObstFront est contact et ObstRight est contact alors Sang est turnLeft;
+        //R9
+        si ObstFront est contact et ObstLeft est contact alors Sang est turnRight;
+        
 }
 // ---End-Of-File-------------------------------------------------------------
