@@ -5,60 +5,55 @@
 
 configuration
 {
-	et := min;
-	ou := max;
-	decodage := centre;
-	implication := larsen;
-	ainsi_que := max;
+    et := produit ; // min produit produit_borne
+    ou := max; // max somme somme_bornee somme_drastique
+    decodage := centre; // max moyenne_max centre 
+    implication := mamdani;  // larsen mamdani 
+    ainsi_que := somme; // max somme
 }
 
 linguistique
 {
-	// Valeurs linguistiques de la variable linguistique DistGoal
-        proche := rampe_bas(80.0, 200.0);
-        loin   := rampe_haut(80.0, 200.0);
 
-	// Valeurs linguistiques de la variable linguistique DirecGoal
+        // Valeurs linguistiques de la variable linguistique DistGoal
+        proche := rampe_bas(80.0, 110.0);
+        loin   := rampe_haut(80.0, 110.0);
+
+        // Valeurs linguistiques de la variable linguistique DirecGoal
         onRight := rampe_bas(-90.0,0);
         inFront := triangle(-90.0,0.0,90.0);
         onLeft  := rampe_haut(0.0,90.0);
 
         // Valeurs linguistiques de la variable linguistique Slin
-        rapide := triangle(25.0, 150.0, 200.0);
-        lente  := triangle(25.0, 40.0, 200.0);
+        rapide := triangle(80.0, 120.0, 130.0);
+        lente  := triangle(-40.0, 10.0, 30.0);
         
 
         // Valeurs linguistiques de la variable linguistique Sang
         turnRight  := triangle(-200.0,-100.0,0.0);
         straightOn := triangle(-100.0,0,100.0);
-        turnLeft   := triangle(0.0,100.0,200.0);
-
-
-        //Valeurs linguistique pour la distance avec un obstacle 
-        contact := rampe_bas(80.0, 200.0);
-        
+        turnLeft   := triangle(0.0,100.0,200.0);     
 }
 
 
 regles
-{
-        // Reach the goal but ignore the obstacles
-        si DirecGoal est inFront alors Sang est straightOn; 
-        si DirecGoal est onLeft  alors Sang est turnLeft;
-        si DirecGoal est onRight alors Sang est turnRight;
+{       
+        //gestion de la vitesse 
+        si ObstFront est tres loin alors Slin est rapide;
+        si ObstFront est tres proche ou DistGoal est proche alors Slin est lente;
 
-        //règles pour la gestion de la vitesse en fonction de la distance jusqu'à l'objectif 
-        si DistGoal est loin alors Slin est rapide;
-        si DistGoal est proche alors Slin est lente;
+        //décision sur l'inclinaison du robot par rapport à l'objectif en s'assurant que les obstacles soient loin avant de faire pivoter le robot 
+        si DirecGoal est inFront et ObstFront est loin alors Sang est straightOn; 
+        si DirecGoal est onLeft et ObstLeft est loin et ObstFront est loin alors Sang est turnLeft;
+        si DirecGoal est onRight et ObstRight est loin et ObstFront est loin alors Sang est turnRight;
 
+        //gestion des moments ou on a un obstacle en face du robot 
+        si ObstFront est proche et ObstLeft est proche et ObstRight est loin alors Sang est turnRight;
+        si ObstFront est proche et ObstRight est proche et ObstLeft est loin alors Sang est turnLeft;
+        si ObstFront est tres proche et ObstLeft est pas proche et ObstRight est pas proche alors Sang est turnLeft; 
 
-        //règles pour les obstacles
-        Si ObstLeft est contact alors Sang est turnRight;
-        Si ObstRight est contact alors Sang est turnLeft;
-
-        //par défaut il tourne a gauche quand obstacle devant  
-        Si ObstFront est contact alors Sang est turnLeft;
-        Si ObstFront est contact et ObstLeft est contact alors Sang est turnRight;
-
-}
+        //gestion des cas ou le robot veut s'orienter vers l'objectif mais il y a un obstacle sur le chemin
+        si ObstLeft est proche et DirecGoal est onLeft alors Sang est straightOn;
+        si ObstRight est proche et DirecGoal est onRight alors Sang est straightOn;
+}       
 // ---End-Of-File-------------------------------------------------------------
